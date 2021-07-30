@@ -1,1 +1,1 @@
-# nrc2021-reg-polytassium
+# nrc2021-open-polytassium
