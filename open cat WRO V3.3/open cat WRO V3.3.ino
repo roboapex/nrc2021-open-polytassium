@@ -10,6 +10,8 @@ void setup() {
 #define TMPa A0
 #define Servpin 8
 #define DHTd 7
+#define LDr A1
+#define ifrain 8
   pinMode(bat1C, OUTPUT);
   pinMode(bat1D, OUTPUT);
   pinMode(bat2C, OUTPUT);
@@ -20,6 +22,8 @@ void setup() {
   pinMode(DHTd, INPUT);
   Servo myservo;
   myservo.attach(Servpin);
+  pinMode(LDr, INPUT);
+  pinMode(ifrain, INPUT);
 }
 
 void loop() {
@@ -53,4 +57,14 @@ int timekeeper() {
     int hours = (TimeNOW % day) / hour;
     return hours ;
   }
+}
+void rain(){
+  Servo myservo;
+  myservo.attach(Servpin);
+  myservo.write(30);
+}
+void sun(){
+  Servo myservo;
+  myservo.attach(Servpin);
+  myservo.write(0);
 }
