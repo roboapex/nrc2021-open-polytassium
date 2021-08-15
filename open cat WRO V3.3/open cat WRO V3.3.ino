@@ -24,10 +24,16 @@ void setup() {
   myservo.attach(Servpin);
   pinMode(LDr, INPUT);
   pinMode(ifrain, INPUT);
+  int count = 0;
+  float TMParray[10000000] = {};
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  int count;
+  float TMParray[10000000] = {};
+  TMParray[count] = TMPtemp();
+  count = count+1;
 
 }
 float TMPtemp() {
