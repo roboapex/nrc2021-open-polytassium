@@ -25,16 +25,40 @@ void setup() {
   pinMode(LDr, INPUT);
   pinMode(ifrain, INPUT);
   int count = 0;
-  float TMParray[10000000] = {};
+  float TMParray[1000] = {};
+  Serial.begin(9600);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   int count;
-  float TMParray[10000000] = {};
+  int i = 0;
+  int s = 0;
+  int x = 0;
+  if (digitalRead(ifrain) == HIGH) {
+    rain();
+  }
+  else if (digitalRead(ifrain) == LOW) {
+    sun();
+  }
+  float TMParray[1000] = {};
   TMParray[count] = TMPtemp();
-  count = count+1;
-
+  count = count + 1;
+  int tim = timekeeperhours();
+  int tim2h = tim%2;
+  if (tim2h == 1){
+    change1to2D();
+    }
+    else if (tim2h == 0){
+      change2to1D();
+      }
+      char handshake = Serial.read();
+      if(handshake == "data"){
+        while(i<count){
+          Serial.print(TMParray[i]);
+          i = i+1;
+          }
+        }
 }
 float TMPtemp() {
 
@@ -55,7 +79,7 @@ void change2to1D() {
   digitalWrite(bat2D, LOW);
   digitalWrite(bat2D, HIGH);
 }
-int timekeeper() {
+int timekeeperhours() {
   while (true) {
     long day = 86400000; // 86400000 milliseconds in a day
     long hour = 3600000; // 3600000 milliseconds in an hour
@@ -64,12 +88,12 @@ int timekeeper() {
     return hours ;
   }
 }
-void rain(){
+void rain() {
   Servo myservo;
   myservo.attach(Servpin);
   myservo.write(30);
 }
-void sun(){
+void sun() {
   Servo myservo;
   myservo.attach(Servpin);
   myservo.write(0);
