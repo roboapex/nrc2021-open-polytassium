@@ -73,17 +73,20 @@ void loop() {
   }
   haveornot = Serial.available();
   if (haveornot > 0) {
+    Serial.println("1 second of information is equivalent to 1h hour of information");
     Serial.println("Temperature");
 
     while (i < count) {
       Serial.println(TMParray[i]);
       Serial.print("C");
       i = i + 1;
+      delay(100);
     }
     Serial.println("Humidity");
     while (x < count) {
       Serial.println(DHTarray[i]);
       Serial.print("%");
+      delay(1000);
     }
     Serial.println("Information taken over a period of");
     Serial.println(day);
