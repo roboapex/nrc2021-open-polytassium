@@ -11,6 +11,7 @@ DHT dht(11, 11);
 float h;
 float TMParray[100] = {};
 float DHTarray[100] = {};
+int tilt;
 void setup() {
   // put your setup code here, to run once:
   pinMode(13, OUTPUT); // led
@@ -29,9 +30,13 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   delay(5000);
+  int day = millis() / 86400000;
+  int hour = millis() % 86400000 / 3600000;
+  int mins = millis() % 86400000 % 3600000 / 1000;
   int count;
   int i = 0;
   int x = 0;
+  int doornot = count % 720;
   pinMode(13, OUTPUT); // led
   pinMode(12, OUTPUT); // servo
   pinMode(11, INPUT); // DHT
@@ -39,9 +44,6 @@ void loop() {
   pinMode(A1, INPUT); // LDR2
   pinMode(A2, INPUT); // TMP
   Servo myservo;
-  myservo.attach(12);
-  myservo.write(180);
-  int tilt;
   LDR1 = analogRead(A0);// readings for tilt
   LDR2 = analogRead(A1);
   changesolar = LDR1 - LDR2;
@@ -55,14 +57,20 @@ void loop() {
     myservo.write(tilt - 5);
   }
   // the changes so it will auto tune to optimum angle
-  int h = dht.readHumidity();
-  int t = dht.readTemperature();
-  float hic = dht.computeHeatIndex(t, h, false);
-  DHTarray[count] = h;
-  float analog = analogRead(A2);
-  float voltage = analog * (3000.0 / 1023.0);
-  float temp = (voltage - 500) / 10;
-  TMParray[count] = temp;
+  myservo.attach(12);
+  myservo.write(180);
+  int tilt;
+  if (doornot == 0) {
+    int h = dht.readHumidity();
+    int t = dht.readTemperature();
+    float hic = dht.computeHeatIndex(t, h, false);
+    DHTarray[count] = h;
+    float analog = analogRead(A2);
+    float voltage = analog * (3000.0 / 1023.0);
+    float temp = (voltage - 500) / 10;
+    TMParray[count] = temp;
+
+  }
   haveornot = Serial.available();
   if (haveornot > 0) {
     Serial.println("Temperature");
@@ -78,9 +86,6 @@ void loop() {
       Serial.print("%");
     }
     Serial.println("Information taken over a period of");
-    int day = millis() / 86400000;
-    int hour = millis() % 86400000 / 3600000;
-    int mins = millis() % 86400000 % 3600000 / 1000;
     Serial.println(day);
     Serial.print("days");
     Serial.println(hour);
