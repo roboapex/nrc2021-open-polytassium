@@ -86,7 +86,7 @@ void loop() {
     while (x < count) {
       Serial.println(DHTarray[i]);
       Serial.print("%");
-      delay(1000);
+      delay(100);
     }
     Serial.println("Information taken over a period of");
     Serial.println(day);
