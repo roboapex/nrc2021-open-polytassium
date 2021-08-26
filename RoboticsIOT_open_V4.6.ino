@@ -20,8 +20,8 @@
 #define PASSWORD     "WIFI_PASSWORD_GOES_HERE"
 #define IO_USERNAME  "LOZachary"
 #define IO_KEY       "aio_zBAp466wNUshWoZlFBak61GUBK8x"
-#define FEED_KEY     "tmp-dot-robo-dot-open"
-
+#define FEED_KEYTMP     "tmp-dot-robo-dot-open"
+#define FEED_KEYDHT "dht-dot-robo-dot-open"
 SSTuino wifi = SSTuino();
 
 int LDR1 = A0;
@@ -69,7 +69,7 @@ void setup()
 
 void loop()
 {
-
+  DHT dht(DHTs, 11);
   Servo servo_8;
   servo_8.attach(8, 500, 2500);
   if (analogRead(LDR1) > analogRead(LDR2)) {
@@ -79,8 +79,10 @@ void loop()
   }
   tmpv = analogRead(TMP);
   tmpc = map(tmpv, 0, 1023, -40, 125);
+  humn = dht.readHumidity();
 
-  transmitData(String(tmpc));
+  transmitDataTMP(String(tmpc));
+  transmitDataDHT(String(humn));
   delay(7500); // you can replace this delay with something longer or shorter,
   // but 7.5s interval is preferred to prevent flooding Adafruit IO
 }
@@ -122,11 +124,19 @@ void setupMQTT(void)
   }
 }
 
-void transmitData(const String& value)
+void transmitDataTMP(const String& value)
 {
-  if (wifi.mqttPublish(F(IO_USERNAME "/feeds/" FEED_KEY), value)) {
-    Serial.println(F("Successfully published data!"));
+  if (wifi.mqttPublish(F(IO_USERNAME "/feeds/" FEED_KEYTMP), value)) {
+    Serial.println(F("Successfully published data for TMP!"));
   } else {
-    Serial.println(F("Failed to publish data!"));
+    Serial.println(F("Failed to publish data for TMP!"));
+  }
+}
+void transmitDataDHT(const String& value)
+{
+  if (wifi.mqttPublish(F(IO_USERNAME "/feeds/" FEED_KEYDHT), value)) {
+    Serial.println(F("Successfully published data for DHT!"));
+  } else {
+    Serial.println(F("Failed to publish data for DHT!"));
   }
 }
