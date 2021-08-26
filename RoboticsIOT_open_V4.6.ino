@@ -18,9 +18,9 @@
 
 #define SSID         "SSID_GOES_HERE"
 #define PASSWORD     "WIFI_PASSWORD_GOES_HERE"
-#define IO_USERNAME  "AIO_USERNAME_GOES_HERE"
-#define IO_KEY       "AIO_KEY_GOES_HERE"
-#define FEED_KEY     "FEED_KEY_GOES_HERE"
+#define IO_USERNAME  "LOZachary"
+#define IO_KEY       "aio_zBAp466wNUshWoZlFBak61GUBK8x"
+#define FEED_KEY     "tmp-dot-robo-dot-open"
 
 SSTuino wifi = SSTuino();
 
