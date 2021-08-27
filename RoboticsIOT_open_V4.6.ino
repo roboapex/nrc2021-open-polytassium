@@ -23,7 +23,7 @@
 #define FEED_KEYTMP     "tmp-dot-robo-dot-open"
 #define FEED_KEYDHT "dht-dot-robo-dot-open"
 SSTuino wifi = SSTuino();
-
+const int Servpin = 8;
 int LDR1 = A0;
 int LDR2 = A1;
 int  TMP = A2;
